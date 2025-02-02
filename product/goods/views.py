@@ -40,14 +40,20 @@ def catalog(request):
                             'image': 'deps/images/products/тушь дарлинг.png',
                             'name': 'Тушь Darling силикон',
                             'feed_desc': 'Отличная тушь, хорошо смывается, покупаем.',
-                            'price': 500
+                            'price': 500.00
                         },
                         {
                             'image': 'deps/images/products/тушь vivienne.png',
                             'name': 'Viviene Sabo белая/черная ',
                             'feed_desc': 'Быстро осыпается, тяжело смыть',
-                            'price': 500
-                        }]}
+                            'price': 500.00
+                        },
+                         {
+                             'image': 'deps/images/products/pure_hand.png',
+                             'name': 'pure snail hand cream',
+                             'feed_desc': 'Для рук мне не подошел, но для тела хороший, увлажняет, легкий',
+                             'price': 500.00
+                         }]}
 
     return render(request, 'goods/catalog.html', context=context)
 
