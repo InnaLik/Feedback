@@ -14,6 +14,8 @@ class Categories(models.Model):
         # как будет отображаться в админ панели при множественном числеx
         verbose_name_plural = 'Категории'
 
+    def __str__(self):
+        return self.name
 
 def get_default_category_id():
     return Categories.objects.get_or_create(name="Без категории")[0].id
@@ -34,3 +36,6 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         # как будет отображаться в админ панели при множественном числе
         verbose_name_plural = 'Продукты'
+
+    def __str__(self):
+        return self.name

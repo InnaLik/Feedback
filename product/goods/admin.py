@@ -4,6 +4,13 @@ from django.contrib import admin
 from goods.models import Categories, Products
 
 
+@admin.register(Categories)
+class CategoriesAdmin(admin.ModelAdmin):
+    # для автоматического заполнения полей
+    prepopulated_fields = {"slug": ("name", )}
 
-admin.site.register(Categories)
-admin.site.register(Products)
+
+@admin.register(Products)
+class ProductsAdmin(admin.ModelAdmin):
+    # для автоматического заполнения полей
+    prepopulated_fields = {"slug": ("name", )}
