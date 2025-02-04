@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main.views import index, about
+from main.views import about, index
 
 # чтобы работал namespace
 app_name = 'main'
