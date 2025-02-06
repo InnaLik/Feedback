@@ -36,7 +36,7 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         # как будет отображаться в админ панели при множественном числе
         verbose_name_plural = 'Продукты'
-
+        ordering = ("price", )
     def __str__(self):
         return self.name
 
