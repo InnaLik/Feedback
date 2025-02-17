@@ -4,7 +4,7 @@ from django.shortcuts import render, get_list_or_404
 from goods.models import Products
 
 
-def catalog(request, category_slug):
+def catalog(request, category_slug, page=1):
     if category_slug == "vse-tovary":
         goods = Products.objects.all()
     else:
@@ -12,12 +12,13 @@ def catalog(request, category_slug):
         goods = get_list_or_404(Products.objects.filter(category__slug=category_slug))
 
     # по три товара на каждую страницу
-    paginator = Paginator(goods, per_page=3)
-    # текущая страница, это и будет на queryset урезанный до 3х
-    current_page = paginator.page(1)
+    paginator = Paginator(goods, per_page=6)
+    # текущая страница, это и будет на queryset урезанный до 6
+    current_page = paginator.page(page)
 
     context = {"title": "Мой каталог",
-               'goods': current_page}
+               'goods': current_page,
+               "slug_url": category_slug}
 
     return render(request, 'goods/catalog.html', context=context)
 
