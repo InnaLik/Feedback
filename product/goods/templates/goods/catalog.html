@@ -57,7 +57,7 @@
                 {% endif %}
                 <div class="card-body">
                     <a href="{% url "catalog:get_product" product.slug%}">
-                        <p class="card-title">{{ product.name }}</p>
+                        <p class="card-title">{{ product.name|truncatechars:28 }}</p>
                     </a>
                     <p class="card-text">{{ product.description|truncatechars:35 }}</p>
                     <p class="product_id">id: {{ product.display_id }}</p>
