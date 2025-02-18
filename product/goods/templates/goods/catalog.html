@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load goods_tags %}
 
 {% block content %}
 <div class="col-lg-10">
@@ -61,7 +62,10 @@
                     </a>
                     <p class="card-text">{{ product.description|truncatechars:35 }}</p>
                     <p class="product_id">id: {{ product.display_id }}</p>
-                    <h6 class="card-title">Рейтинг: {{ product.rating }}</h6>
+                    <div class="rating-stars">
+                        <h6 class="card-title">Рейтинг: {{ product.rating|stars }}</h6>
+                    </div>
+
                     <div class="d-flex justify-content-between">
                         <!--                    <p><s>100</s> $</p>-->
                         <!--                    <p><strong>90.00 $</strong></p>-->
@@ -82,24 +86,24 @@
                 <div class="custom-shadow d-flex">
                     <li class="page-item {% if not goods.has_previous %} disabled {% endif %}">
                         <a class="page-link" href="{% if goods.has_previous %}
-                        {% url "catalog:index" slug_url goods.previous_page_number %}
+                        ?page={{page}}
                         {% else %}
-                        # {% endif %} ">Назад</a>
+                        # {% endif %}">Назад</a>
                     </li>
                     {% for page in goods.paginator.page_range %}
                     <!-- это чтобы отображалось например только 3 страницы, а не 50, если их столько -->
                     {% if page >= goods.number|add:-2 and page <= goods.number|add:2 %}
                     <li class="page-item {% if goods.number == page %} active {% endif %}">
-                        <a class="page-link" href="{% url "catalog:index" slug_url page%}">{{page}}</a>
+                        <a class="page-link" href="?page={{page}}">{{page}}</a>
                     </li>
                     {% endif %}
                     {% endfor %}
-
+                     <!-- ?page={{page}} - через гет запрос получаем страницу и формируем urk-->
                     <li class="page-item {% if not goods.has_next %} disabled {% endif %}">
                         <a class="page-link" href="{% if goods.has_next %}
-                             {% url "catalog:index" slug_url goods.next_page_number %}
+                             ?page={{page}}
                         {% else %}
-                         # {% endif %} "
+                         # {% endif %}"
                         >Вперед</a>
                     </li>
                 </div>
