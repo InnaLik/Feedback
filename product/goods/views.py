@@ -5,13 +5,23 @@ from goods.models import Products
 
 
 def catalog(request, category_slug):
-    # получаем параметр страницы через гет запрос
+    # получаем параметр страницы через GET запрос
     page = request.GET.get("page", 1)
+
+    on_rating = request.GET.get("on_rating", None)
+    order_by = request.GET.get("order_by", None)
     if category_slug == "vse-tovary":
         goods = Products.objects.all()
     else:
         # get_list_or_404 нужно для того, чтобы при возвращении пустого queryset выводилась 404 ошибка
         goods = get_list_or_404(Products.objects.filter(category__slug=category_slug))
+
+    if on_rating:
+        goods = goods.order_by("-rating")
+
+    if order_by and order_by != 'default':
+        goods = goods.order_by(order_by)
+
 
     # по три товара на каждую страницу
     paginator = Paginator(goods, per_page=6)

@@ -11,31 +11,39 @@
                     aria-expanded="false">
                 Фильтры
             </button>
-
-            <form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+            <!-- в теге форм пользователь введет данные, а браузер уже отправит нам их в get запросе -->
+            <form action="{% url "catalog:index" slug_url %}" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
                 <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
-                    <input type="hidden" name="q" value="request.GET.q">
+                    <!-- value то значение, которое будет отправлено, а name это ключ-->
+                    <input class="form-check-input" type="checkbox" name="on_rating" id="flexCheckDefault" value="on"
+                           {% if request.GET.on_rating == "on"%}checked{% endif %}>
+<!--                    <input type="hidden" name="q" value="request.GET.q">-->
                     <label class="form-check-label" for="flexCheckDefault">
-                        Товары по акции
+                        C высоким рейтингом
                     </label>
                 </div>
                 <p class="text-white mx-3 mt-3">Сортировать:</p>
                 <div class="form-check text-white mx-3">
                     <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default"
-                           checked>
+                           {% if request.GET.order_by == "default" or not request.GET.order_by %}
+                           checked{%endif%}>
                     <label class="form-check-label" for="flexRadioDefault1">
                         По умолчанию
                     </label>
                 </div>
                 <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+                    <!-- if request.GET.order_by == "price - чтобы на сайте было отмечено, что мы выбрали по фильтру-->
+                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price"
+                           {% if request.GET.order_by == "price"%}
+                           checked{%endif%}>
                     <label class="form-check-label" for="flexRadioDefault2">
                         От дешевых к дорогим
                     </label>
                 </div>
                 <div class="form-check text-white mx-3">
-                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price"
+                           {% if request.GET.order_by == "-price"%}
+                           checked{%endif%}>
                     <label class="form-check-label" for="flexRadioDefault3">
                         От дорогих к дешевым
                     </label>
