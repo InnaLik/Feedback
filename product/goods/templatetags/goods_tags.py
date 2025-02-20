@@ -1,7 +1,9 @@
 from urllib.parse import urlencode
-from django.utils.http import urlencode
-from goods.models import Categories
+
 from django import template
+from django.utils.http import urlencode
+
+from goods.models import Categories
 
 # для регистрации тега создаем регистер
 register = template.Library()

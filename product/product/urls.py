@@ -21,7 +21,6 @@ from django.urls import include, path
 
 from product import settings
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("main.urls", namespace='main')),

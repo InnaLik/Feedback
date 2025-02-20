@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import get_list_or_404, render
 
 from goods.models import Products
 from goods.utils import q_search
