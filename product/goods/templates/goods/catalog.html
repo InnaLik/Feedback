@@ -12,12 +12,14 @@
                 Фильтры
             </button>
             <!-- в теге форм пользователь введет данные, а браузер уже отправит нам их в get запросе -->
-            <form action="{% url "catalog:index" slug_url %}" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+            <form action="{% if request.GET.q %}{% url "catalog:search" %}{%else%}{% url "catalog:index" slug_url %}" {%endif%} method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
                 <div class="form-check text-white mx-3">
                     <!-- value то значение, которое будет отправлено, а name это ключ-->
                     <input class="form-check-input" type="checkbox" name="on_rating" id="flexCheckDefault" value="on"
                            {% if request.GET.on_rating == "on"%}checked{% endif %}>
-<!--                    <input type="hidden" name="q" value="request.GET.q">-->
+                    {% if request.GET.q %}
+                    <input type="hidden" name="q" value="{{ request.GET.q }}">
+                    {% endif %}
                     <label class="form-check-label" for="flexCheckDefault">
                         C высоким рейтингом
                     </label>

@@ -2,16 +2,19 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_list_or_404
 
 from goods.models import Products
+from goods.utils import q_search
 
 
-def catalog(request, category_slug):
+def catalog(request, category_slug=None):
     # получаем параметр страницы через GET запрос
     page = request.GET.get("page", 1)
-
+    query = request.GET.get("q", None)
     on_rating = request.GET.get("on_rating", None)
     order_by = request.GET.get("order_by", None)
     if category_slug == "vse-tovary":
         goods = Products.objects.all()
+    elif query:
+        goods = q_search(query)
     else:
         # get_list_or_404 нужно для того, чтобы при возвращении пустого queryset выводилась 404 ошибка
         goods = get_list_or_404(Products.objects.filter(category__slug=category_slug))
@@ -21,7 +24,6 @@ def catalog(request, category_slug):
 
     if order_by and order_by != 'default':
         goods = goods.order_by(order_by)
-
 
     # по три товара на каждую страницу
     paginator = Paginator(goods, per_page=6)

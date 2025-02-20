@@ -6,6 +6,7 @@ from goods.views import catalog, get_product
 app_name = 'catalog'
 
 urlpatterns = [
+    path('search/', catalog, name='search'),
     path('<slug:category_slug>/', catalog, name='index'),
     path('product/<slug:product_slug>/', get_product, name='get_product'),
 ]
