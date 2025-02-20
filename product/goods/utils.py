@@ -1,4 +1,5 @@
 from goods.models import Products
+from django.db.models import Q
 
 
 def q_search(query):
