@@ -30,9 +30,7 @@ def catalog(request, category_slug=None):
     # текущая страница, это и будет на queryset урезанный до 6
     current_page = paginator.page(int(page))
 
-    context = {"title": "Мой каталог",
-               'goods': current_page,
-               "slug_url": category_slug}
+    context = {"title": "Мой каталог", 'goods': current_page, "slug_url": category_slug}
 
     return render(request, 'goods/catalog.html', context=context)
 
