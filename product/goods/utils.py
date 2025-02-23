@@ -1,7 +1,7 @@
+from django.db.models import Q
 from django.db.models.manager import BaseManager
 
 from goods.models import Products
-from django.db.models import Q
 
 
 def q_search(query) -> BaseManager[Products]:
