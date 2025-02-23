@@ -1,0 +1,14 @@
+[tool.black]
+exclude = '''
+/(
+    migrations
+  | venv
+  | env
+  | manage\.py
+  | __pycache__
+  | .*\.json$
+  | /static/
+  | /media/
+)/'''
+
+skip-string-normalization = true
