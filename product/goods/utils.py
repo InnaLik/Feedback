@@ -1,4 +1,4 @@
-from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
+from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery, SearchHeadline
 from django.db.models import Q
 from django.db.models.manager import BaseManager
 
@@ -20,5 +20,11 @@ def q_search(query) -> BaseManager[Products]:
         return Products.objects.filter(id=int(query))
 
     # запросы будут отсортированы по релевантности, то есть от более похожих к менее похожим
+    # rank__gt=0 - чтобы не все данные выходили, а там где совпадение больше нуля
     vector = SearchVector("name", "description")
-    return Products.objects.annotate(rank=SearchRank(vector, SearchQuery(query))).order_by("-rank")
+    query = SearchQuery(query)
+    products = Products.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gt=0).order_by("-rank")
+    # чтобы выделялись строчки, по которым происходит поиск
+    products = products.annotate(headline=SearchHeadline("name", query, start_sel='<span style="background-color: yellow">', stop_sel="</span>"))
+    products = products.annotate(bodyline=SearchHeadline("description", query, start_sel='<span style="background-color: yellow">', stop_sel="</span>"))
+    return products

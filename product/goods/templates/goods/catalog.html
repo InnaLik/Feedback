@@ -68,9 +68,15 @@
                 {% endif %}
                 <div class="card-body">
                     <a href="{% url "catalog:get_product" product.slug%}">
-                        <p class="card-title">{{ product.name|truncatechars:28 }}</p>
+                        <p class="card-title">
+                            {% if product.headline %}{% autoescape off%} {{product.headline|truncatechars:78}} {% endautoescape %}
+                            {% else %}{{ product.name|truncatechars:28 }}{% endif %}
+                        </p>
                     </a>
-                    <p class="card-text">{{ product.description|truncatechars:35 }}</p>
+                    <p class="card-text">
+                            {% if product.bodyline %}{% autoescape off%} {{product.bodyline|truncatechars:90}} {% endautoescape %}
+                            {% else %}{{ product.description|truncatechars:35 }}{% endif %}
+                        </p>
                     <p class="product_id">id: {{ product.display_id }}</p>
                     <div class="rating-stars">
                         <h6 class="card-title">Рейтинг: {{ product.rating|stars }}</h6>
