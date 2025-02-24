@@ -1,4 +1,4 @@
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 from django.db.models import Q
 from django.db.models.manager import BaseManager
 
@@ -18,14 +18,7 @@ def q_search(query) -> BaseManager[Products]:
     """
     if query.isdigit() and len(query) <= 5:
         return Products.objects.filter(id=int(query))
-    # встроенный метод для релевантного поиска + ищет по токену, а не по вхождению
-    return Products.objects.annotate(search=SearchVector("name", "description")).filter(search=query)
 
-    # keywords = [word for word in query.split() if len(word) > 2]
-    # q_objects = Q()
-    # # полнотекстовый поиск и по названию и по описанию
-    # for token in keywords:
-    #     q_objects |= Q(description__icontains=token)
-    #     q_objects |= Q(name__icontains=token)
-    #
-    # return Products.objects.filter(q_objects)
+    # запросы будут отсортированы по релевантности, то есть от более похожих к менее похожим
+    vector = SearchVector("name", "description")
+    return Products.objects.annotate(rank=SearchRank(vector, SearchQuery(query))).order_by("-rank")
