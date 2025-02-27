@@ -1,5 +1,9 @@
-from django.contrib.postgres.search import (SearchHeadline, SearchQuery,
-                                            SearchRank, SearchVector)
+from django.contrib.postgres.search import (
+    SearchHeadline,
+    SearchQuery,
+    SearchRank,
+    SearchVector,
+)
 from django.db.models.manager import BaseManager
 from goods.models import Products
 
