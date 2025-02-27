@@ -1,5 +1,5 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.contrib.auth.models import AbstractUser  # noqa
+from django.db import models  # noqa
 
-class User(AbstractUser):
-
+# class User(AbstractUser):
+#     pass

@@ -91,7 +91,7 @@ DATABASES = {
         'USER': 'product',
         'PASSWORD': os.getenv("bd_password"),
         'HOST': 'localhost',
-        'PORT': '5433'
+        'PORT': '5433',
     }
 }
 
@@ -132,7 +132,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
+STATICFILES_DIRS = [  # noqa
     BASE_DIR / 'static',
 ]
 

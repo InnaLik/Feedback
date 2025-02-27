@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 # Create your views here.
 def login(request):
     context = {'title': 'Авторизация'}
@@ -19,5 +20,4 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-def logout(request):
-    ...
+def logout(request): ...
