@@ -1,7 +1,7 @@
 [tool.black]
 exclude = '''
 /(
-    migrations
+  | migrations/
   | venv
   | env
   | manage\.py
@@ -9,6 +9,7 @@ exclude = '''
   | .*\.json$
   | /static/
   | /media/
+  | settings.py
 )/'''
 
 skip-string-normalization = true
