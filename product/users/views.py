@@ -20,6 +20,8 @@ def login(request):
                 return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserLoginForm()
+    # если у нас пришел post запрос, но не валидный, в контекст передастся форма не пустая, так как выше мы её сделали
+    # на сайте останется логин, пароль сбросится
     context = {'title': 'Авторизация', 'form': form}
 
     return render(request, 'users/login.html', context)
