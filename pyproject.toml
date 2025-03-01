@@ -20,4 +20,4 @@ profile = "black"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "product.settings"
 python_files = ["test_*.py", "*_test.py"]
-testpaths = ["."]
+testpaths = ["product"]
