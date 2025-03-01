@@ -78,4 +78,5 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5433
         run: |
+           export PYTHONPATH=$(pwd)/product
            pytest --import-mode=importlib --tb=short
