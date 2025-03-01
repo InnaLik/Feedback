@@ -5,6 +5,7 @@ from django.contrib.postgres.search import (
     SearchVector,
 )
 from django.db.models.manager import BaseManager
+
 from goods.models import Products
 
 
