@@ -79,4 +79,4 @@ jobs:
           POSTGRES_PORT: 5433
         run: |
            export PYTHONPATH=$(pwd)/product
-           pytest --import-mode=importlib --tb=short
+           pytest product/main --import-mode=importlib --tb=short
