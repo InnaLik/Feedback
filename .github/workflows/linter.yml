@@ -78,4 +78,4 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5433
         run: |
-          pytest --maxfail=1 --disable-warnings -q
+           pytest --import-mode=importlib --tb=short
