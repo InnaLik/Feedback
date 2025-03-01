@@ -64,4 +64,4 @@ jobs:
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/product" >> $GITHUB_ENV
 
       - name: Run tests
-        run: pytest --tb=short
+        run: pytest --import-mode=importlib --tb=short
