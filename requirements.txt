@@ -11,6 +11,7 @@ django-debug-toolbar==5.0.1
 executing==2.2.0
 flake8==6.1.0
 flake8-django==1.4
+iniconfig==2.0.0
 ipython==8.32.0
 isort==5.13.2
 jedi==0.19.2
@@ -23,12 +24,15 @@ parso==0.8.4
 pathspec==0.12.1
 pillow==11.1.0
 platformdirs==4.3.6
+pluggy==1.5.0
 prompt_toolkit==3.0.50
 psycopg2==2.9.10
 pure_eval==0.2.3
 pycodestyle==2.11.1
 pyflakes==3.1.0
 Pygments==2.19.1
+pytest==8.3.4
+pytest-django==4.10.0
 python-dotenv==1.0.1
 sqlparse==0.5.3
 stack-data==0.6.3
