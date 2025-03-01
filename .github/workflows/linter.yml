@@ -55,8 +55,13 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Run tests
+      - name: Clean Python cache
         run: |
-          cd product
-          export PYTHONPATH=$(pwd)
-          pytest
+          find . -name "__pycache__" -type d -exec rm -rf {} +
+          find . -name "*.pyc" -delete
+
+      - name: Set up Python path
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/product" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: pytest --tb=short
