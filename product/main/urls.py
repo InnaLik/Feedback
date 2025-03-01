@@ -1,4 +1,5 @@
 from django.urls import path
+
 from main.views import about, index
 
 # чтобы работал namespace
