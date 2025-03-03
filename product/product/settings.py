@@ -168,3 +168,4 @@ if SYSTEM_ENV == 'GITHUB_WORKFLOW':
             'PORT': '5432',
         }
     }
+    STATICFILES_DIRS = []
