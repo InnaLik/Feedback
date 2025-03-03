@@ -169,3 +169,4 @@ if SYSTEM_ENV == 'GITHUB_WORKFLOW':
         }
     }
     STATICFILES_DIRS = []
+    AUTH_USER_MODEL = 'users.CustomUser'
