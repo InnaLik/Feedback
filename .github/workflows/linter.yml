@@ -46,7 +46,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: test_db
         ports:
-          - 5433:5432  # Убедитесь, что порт 5433 используется для подключения
+          - 5433:5432
         options: --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
@@ -70,13 +70,19 @@ jobs:
             sleep 1
           done
 
+      - name: Set environment variables
+        run: |
+          echo "NAME=test_db" >> $GITHUB_ENV
+          echo "USER=postgres" >> $GITHUB_ENV
+          echo "DB_PASSWORD=postgres" >> $GITHUB_ENV
+          echo "HOST=localhost" >> $GITHUB_ENV
+          echo "PORT=5433" >> $GITHUB_ENV
+
+      - name: Run migrations
+        run: |
+          python manage.py migrate
+
       - name: Run tests with pytest
-        env:
-          NAME: test_db
-          USER: postgres
-          DB_PASSWORD: postgres
-          HOST: localhost
-          PORT: 5433
         run: |
            export PYTHONPATH=$(pwd)/product
            pytest product/main --import-mode=importlib --tb=short
