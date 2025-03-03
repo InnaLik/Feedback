@@ -75,6 +75,6 @@ jobs:
           cd product
 #          python manage.py migrate
           pytest .
-         env:
+        env:
           SYSTEM_ENV: GITHUB_WORKFLOW
 
