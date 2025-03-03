@@ -71,6 +71,9 @@ jobs:
           pip install -r requirements.txt 
 
       - name: Change directory
+        run: cd product
+
+      - name: ls
         run: ls
 
 #      - name: Run migrations
