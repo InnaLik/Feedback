@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'product.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'product',
-        'USER': 'product',
-        'PASSWORD': os.getenv("bd_password"),
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'NAME': os.getenv("NAME"),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv('HOST'),
+        'PORT': os.getenv('PORT'),
     }
 }
 
