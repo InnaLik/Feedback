@@ -71,10 +71,10 @@ jobs:
           pip install -r requirements.txt 
 
       - name: Change directory
-        run: |
+        run:
           cd product
 #          python manage.py migrate
           pytest .
-        env:
-          SYSTEM_ENV: GITHUB_WORKFLOW
+#        env:
+#          SYSTEM_ENV: GITHUB_WORKFLOW
 
