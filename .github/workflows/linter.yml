@@ -70,10 +70,9 @@ jobs:
           pip install pytest
           pip install -r requirements.txt
 
-#      - name: Change directory
-#        run: |
-#          cd product
-#          python manage.py migrate
-#          pytest .
-#        env:
-#          SYSTEM_ENV: GITHUB_WORKFLOW
+      - name: Change directory
+        run: |
+          cd product
+          pytest .
+        env:
+          SYSTEM_ENV: GITHUB_WORKFLOW
