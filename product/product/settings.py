@@ -169,7 +169,7 @@ if SYSTEM_ENV == 'GITHUB_WORKFLOW':
         }
     }
     STATICFILES_DIRS = []
-    AUTH_USER_MODEL = 'users.User'
+    AUTH_USER_MODEL = 'auth.User'
     INSTALLED_APPS.remove('debug_toolbar')
     MIDDLEWARE.remove('debug_toolbar.middleware.DebugToolbarMiddleware')
     DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
