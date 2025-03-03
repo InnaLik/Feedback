@@ -72,11 +72,11 @@ jobs:
 
       - name: Run tests with pytest
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5433
+          NAME: test_db
+          USER: postgres
+          DB_PASSWORD: postgres
+          HOST: localhost
+          PORT: 5433
         run: |
            export PYTHONPATH=$(pwd)/product
            pytest product/main --import-mode=importlib --tb=short
