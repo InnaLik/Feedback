@@ -35,5 +35,8 @@ jobs:
       - name: Проверка isort
         run: isort --check-only .
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
+
       - name: Test
         run: pytest .
