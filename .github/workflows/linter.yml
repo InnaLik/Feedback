@@ -45,9 +45,9 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_DB: mydb
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
+          POSTGRES_DB: github_actions
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
