@@ -70,10 +70,19 @@ jobs:
           pip install pytest
           pip install -r requirements.txt 
 
+      - name: ls1
+        run: ls
+
       - name: Change directory
         run: cd product
 
-      - name: ls
+      - name: ls2
+        run: ls
+
+      - name: Change directory2
+        run: cd product
+
+      - name: ls3
         run: ls
 
 #      - name: Run migrations
