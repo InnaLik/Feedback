@@ -73,11 +73,6 @@ jobs:
       - name: Change directory
         run: |
           cd product
-
-
-      - name: Run migrations
-        run: python manage.py migrate
-
-      - name: Run tests
-        run: pytest .
+          python manage.py migrate
+          pytest .
 
