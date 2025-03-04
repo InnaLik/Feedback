@@ -73,7 +73,8 @@ jobs:
       - name: Change directory
         run: |
           cd product
-#          python manage.py migrate
+          python manage.py makemigrations
+          python manage.py migrate
 #          pytest .
 #        env:
 #          SYSTEM_ENV: GITHUB_WORKFLOW
