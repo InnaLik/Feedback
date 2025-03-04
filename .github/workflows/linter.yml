@@ -9,6 +9,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    name: lint
 
     steps:
       - name: Checkout репозитория
@@ -41,6 +42,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     needs: lint
+    name: Tests
     env:
       SYSTEM_ENV: GITHUB_WORKFLOW
 
