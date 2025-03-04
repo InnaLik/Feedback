@@ -164,7 +164,7 @@ if SYSTEM_ENV == 'GITHUB_WORKFLOW':
             'NAME': 'github_actions',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': '127.0.0.1',
+            'HOST': 'postgres',
             'PORT': '5432',
         }
     }
