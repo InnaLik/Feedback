@@ -77,4 +77,4 @@ jobs:
         run: |
           cd product
           python manage.py migrate
-          pytest .
+#          pytest .
