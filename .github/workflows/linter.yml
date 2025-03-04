@@ -76,7 +76,5 @@ jobs:
       - name: Change directory
         run: |
           cd product
-          dropdb github_actions
-          createdb github_actions
-          python manage.py migrate --noinput
+          python manage.py migrate
           pytest .
