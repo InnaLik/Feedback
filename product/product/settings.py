@@ -164,8 +164,8 @@ if SYSTEM_ENV == 'GITHUB_WORKFLOW':
             'NAME': 'github_actions',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': 'postgres',
-            'PORT': '5432',
+            'HOST': '127.0.0.1',
+            # 'PORT': '5432',
         }
     }
     STATICFILES_DIRS = []
