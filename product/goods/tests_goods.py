@@ -1,3 +1,7 @@
-from django.test import TestCase  # noqa
+import pytest
+from django.urls import reverse  # noqa
 
-# Create your tests here.
+
+@pytest.mark.django_db
+class TestGoods:
+    pass
