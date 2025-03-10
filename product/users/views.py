@@ -8,6 +8,7 @@ from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
 
 # Create your views here.
 def login(request):
+    """Вход в уз."""
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
@@ -29,6 +30,7 @@ def login(request):
 
 
 def registration(request):
+    """Регистрация пользователя."""
     if request.method == 'POST':
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
@@ -47,6 +49,7 @@ def registration(request):
 
 
 def profile(request):
+    """Профиль пользователя."""
     if request.method == 'POST':
         # files чтобы могла принимать файлы
         form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -63,5 +66,6 @@ def profile(request):
 
 
 def logout(request):
+    """Выход из уз."""
     auth.logout(request)
     return redirect(reverse('main:index'))
