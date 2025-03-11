@@ -20,3 +20,15 @@ class TestUsers:
         assert response.context['title'] == title
 
         assert title in response.content.decode()
+
+    @pytest.mark.django_db
+    def test_logout_success(self, client, django_user_model):
+        user = django_user_model.objects.create_user( # noqa
+            username="testuser", password="password"
+        )
+        client.login(username="testuser", password="password")  # Логиним пользователя
+
+        response = client.post(reverse("user:logout"))  # Выходим
+
+        assert response.status_code == 302  # Проверяем редирект
+        assert not client.session.get("_auth_user_id")
