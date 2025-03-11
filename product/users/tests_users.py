@@ -45,7 +45,7 @@ class TestUsers:
 
     @pytest.mark.django_db
     def test_profile_get(self, client, django_user_model):
-        user = django_user_model.objects.create_user( # noqa
+        user = django_user_model.objects.create_user(  # noqa
             username="testuser", password="password"
         )  # noqa
         client.login(username="testuser", password="password")  # Логиним пользователя
