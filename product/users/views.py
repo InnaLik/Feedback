@@ -1,4 +1,5 @@
-from django.contrib import auth
+from django.contrib import auth, messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -18,6 +19,9 @@ def login(request):
             if user:
                 # логиним пользователя
                 auth.login(request, user)
+                messages.success(
+                    request, message=f"{username}, Вы успешно зарегистрировались"
+                )
                 return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserLoginForm()
@@ -38,6 +42,9 @@ def registration(request):
             # сразу войдем под пользователем
             user = form.instance
             auth.login(request, user)
+            messages.success(
+                request, message=f"{user.username}, Вы успешно зарегистрировались"
+            )
             return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserRegistrationForm()
@@ -47,6 +54,7 @@ def registration(request):
     return render(request, 'users/registration.html', context)
 
 
+@login_required
 def profile(request):
     """Профиль пользователя."""
     if request.method == 'POST':
@@ -57,6 +65,7 @@ def profile(request):
         if form.is_valid():
             # заносим данные в бд
             form.save()
+            messages.success(request, message="Данные изменены")
             return HttpResponseRedirect(reverse('user:profile'))
     else:
         # передаем объект самого пользователя
@@ -66,7 +75,9 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required
 def logout(request):
     """Выход из уз."""
+    messages.success(request, message=f"{request.user.username}, Вы вышли из аккаунта")
     auth.logout(request)
     return redirect(reverse('main:index'))
