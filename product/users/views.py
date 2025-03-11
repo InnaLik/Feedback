@@ -22,6 +22,8 @@ def login(request):
                 messages.success(
                     request, message=f"{username}, Вы успешно зарегистрировались"
                 )
+                if request.POST.get('next', None):
+                    return HttpResponseRedirect(request.POST.get('next'))
                 return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserLoginForm()

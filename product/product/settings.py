@@ -154,6 +154,8 @@ INTERNAL_IPS = [
     # ...
 ]
 
+LOGIN_URL = '/user/login/'
+
 SYSTEM_ENV = os.getenv('SYSTEM_ENV')
 if SYSTEM_ENV == 'GITHUB_WORKFLOW':
     DEBUG = True
