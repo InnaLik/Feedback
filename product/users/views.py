@@ -1,9 +1,8 @@
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.template.context_processors import request
 from django.urls import reverse
-from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
+from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 
 
 # Create your views here.
@@ -52,7 +51,9 @@ def profile(request):
     """Профиль пользователя."""
     if request.method == 'POST':
         # files чтобы могла принимать файлы
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = ProfileForm(
+            data=request.POST, instance=request.user, files=request.FILES
+        )
         if form.is_valid():
             # заносим данные в бд
             form.save()
