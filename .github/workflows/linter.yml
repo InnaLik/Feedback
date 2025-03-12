@@ -79,6 +79,9 @@ jobs:
       - name: Change directory
         run: |
           cd product
-          python manage.py makemigrations
+          python manage.py makemigrations user
+          python manage.py makemigrations product
+          python manage.py makemigrations goods
+          python manage.py makemigrations carts         
           python manage.py migrate
           pytest .
