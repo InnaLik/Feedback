@@ -80,7 +80,6 @@ jobs:
         run: |
           cd product
           python manage.py makemigrations users
-          python manage.py makemigrations product
           python manage.py makemigrations goods
           python manage.py makemigrations carts         
           python manage.py migrate
