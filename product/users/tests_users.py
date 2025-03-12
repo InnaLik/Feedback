@@ -24,9 +24,7 @@ class TestUsers:
 
     @pytest.mark.django_db
     def test_logout_success(self, client, django_user_model):
-        user = django_user_model.objects.create_user(  # noqa
-            username="testuser", password="password"
-        )
+        user = django_user_model.objects.create_user(username="testuser", password="password")  # noqa
         client.login(username="testuser", password="password")  # Логиним пользователя
 
         response = client.post(reverse("user:logout"))  # Выходим
@@ -38,22 +36,16 @@ class TestUsers:
     def test_logout_without_auth(self, client):
         response = client.post(reverse("user:logout"))  # Выход без входа в систему
 
-        assert (
-            response.status_code == 302
-        )  # Проверяем, что всё равно происходит редирект
+        assert response.status_code == 302  # Проверяем, что всё равно происходит редирект
         assert response.url.startswith(reverse("user:login"))
 
     @pytest.mark.django_db
     def test_profile_get(self, client, django_user_model):
-        user = django_user_model.objects.create_user(  # noqa
-            username="testuser", password="password"
-        )  # noqa
+        user = django_user_model.objects.create_user(username="testuser", password="password")  # noqa  # noqa
         client.login(username="testuser", password="password")  # Логиним пользователя
 
         response = client.get(reverse("user:profile"))  # Открываем страницу профиля
 
         assert response.status_code == 200  # Проверяем успешный ответ
         assert "Кабинет" in response.content.decode()  # Проверяем заголовок страницы
-        assert isinstance(
-            response.context["form"], ProfileForm
-        )  # Проверяем, что передана форма
+        assert isinstance(response.context["form"], ProfileForm)  # Проверяем, что передана форма

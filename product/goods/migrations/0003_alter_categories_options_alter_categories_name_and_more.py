@@ -19,16 +19,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='categories',
             name='name',
-            field=models.CharField(
-                max_length=150, unique=True, verbose_name='Наименование категории'
-            ),
+            field=models.CharField(max_length=150, unique=True, verbose_name='Наименование категории'),
         ),
         migrations.AlterField(
             model_name='categories',
             name='slag',
-            field=models.SlugField(
-                blank=True, max_length=200, null=True, unique=True, verbose_name='URL'
-            ),
+            field=models.SlugField(blank=True, max_length=200, null=True, unique=True, verbose_name='URL'),
         ),
         migrations.CreateModel(
             name='Products',
@@ -75,9 +71,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'price',
-                    models.DecimalField(
-                        decimal_places=2, default=0.0, max_digits=7, verbose_name='Цена'
-                    ),
+                    models.DecimalField(decimal_places=2, default=0.0, max_digits=7, verbose_name='Цена'),
                 ),
                 (
                     'category',

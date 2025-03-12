@@ -25,9 +25,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=150, unique=True)),
                 (
                     'slag',
-                    models.SlugField(
-                        blank=True, max_length=200, null=True, unique=True
-                    ),
+                    models.SlugField(blank=True, max_length=200, null=True, unique=True),
                 ),
             ],
         ),

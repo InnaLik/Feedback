@@ -23,8 +23,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='products',
             name='name',
-            field=models.CharField(
-                max_length=150, unique=True, verbose_name='Наименование продукта'
-            ),
+            field=models.CharField(max_length=150, unique=True, verbose_name='Наименование продукта'),
         ),
     ]

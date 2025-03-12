@@ -3,9 +3,7 @@ from django.db import models  # noqa
 
 
 class User(AbstractUser):
-    image = models.ImageField(
-        upload_to='users_images', blank=True, null=True, verbose_name="Аватар"
-    )
+    image = models.ImageField(upload_to='users_images', blank=True, null=True, verbose_name="Аватар")
 
     class Meta:
         db_table = "user"

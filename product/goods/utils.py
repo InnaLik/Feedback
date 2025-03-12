@@ -26,11 +26,7 @@ def q_search(query) -> BaseManager[Products]:
     # rank__gt=0 - чтобы не все данные выходили, а там где совпадение больше нуля
     vector = SearchVector("name", "description")
     query = SearchQuery(query)
-    products = (
-        Products.objects.annotate(rank=SearchRank(vector, query))
-        .filter(rank__gt=0)
-        .order_by("-rank")
-    )
+    products = Products.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gt=0).order_by("-rank")
     # чтобы выделялись строчки, по которым происходит поиск
     products = products.annotate(
         headline=SearchHeadline(
