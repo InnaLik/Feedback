@@ -81,6 +81,7 @@ jobs:
           cd product
           python manage.py makemigrations users
           python manage.py migrate users
+          \dt
           python manage.py makemigrations
           python manage.py migrate
           pytest .
