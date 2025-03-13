@@ -29,7 +29,7 @@ class Products(models.Model):
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
     description = models.TextField(blank=True, null=True, verbose_name='Отзыв')  # noqa
     image = models.ImageField(upload_to='goods_images', blank=True, null=True, verbose_name='Изображение')
-    price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, verbose_name='Цена')
+    price = models.DecimalField(default=0.00, max_digits=10, decimal_places=0, verbose_name='Цена')
     rating = models.IntegerField(choices=RATING_CHOICES, default=1, verbose_name="Рейтинг")
     category = models.ForeignKey(
         to=Categories,

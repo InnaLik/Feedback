@@ -1,3 +1,4 @@
+from carts.models import Cart
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -80,4 +81,6 @@ def logout(request):
 
 
 def users_cart(request):
-    return render(request, 'users/users_cart.html')
+    """Для отображения корзины пользователя."""
+    carts = Cart.objects.filter(user=request.user.id)
+    return render(request, 'users/users_cart.html', {'carts': carts})
