@@ -82,5 +82,4 @@ def logout(request):
 
 def users_cart(request):
     """Для отображения корзины пользователя."""
-    carts = Cart.objects.filter(user=request.user.id)
-    return render(request, 'users/users_cart.html', {'carts': carts})
+    return render(request, 'users/users_cart.html')
