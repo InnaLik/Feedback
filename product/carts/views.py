@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 from carts.models import Cart
 from django.contrib import messages
 from django.shortcuts import redirect
