@@ -28,10 +28,15 @@ def cart_change(request, product_slug):
     """Меняет количество товара в корзине."""
 
 
-def cart_remove(request, product_slug):
+def cart_remove(request, cart_id):
     """Удаляет товар из корзины."""
-    product = Products.objects.get(slug=product_slug)
     if request.user.is_authenticated:
-        cart = Cart.objects.filter(user=request.user, product=product).first()
+        cart = Cart.objects.get(id=cart_id)
         if cart:
+            name_product = cart.product.name
             cart.delete()
+            messages.success(request, f"{name_product} был удален")
+        else:
+            messages.success(request, "Товар либо уже был удален из корзины, либо не был добавлен")
+
+    return redirect(request.META['HTTP_REFERER'])
