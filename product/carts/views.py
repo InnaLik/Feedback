@@ -24,8 +24,9 @@ def cart_add(request, product_slug):
     return redirect(request.META['HTTP_REFERER'])
 
 
-def cart_change(request, product_slug):
+def cart_change(request, cart_id, sing):
     """Меняет количество товара в корзине."""
+    pass
 
 
 def cart_remove(request, cart_id):
