@@ -1,8 +1,6 @@
 from carts.models import Cart
 from carts.utils import get_user_carts
-from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from goods.models import Products
 
@@ -36,15 +34,16 @@ def cart_change(request, cart_id, sing):
     pass
 
 
-def cart_remove(request, cart_id):
+def cart_remove(request):
     """Удаляет товар из корзины."""
-    if request.user.is_authenticated:
-        cart = Cart.objects.get(id=cart_id)
-        if cart:
-            name_product = cart.product.name
-            cart.delete()
-            messages.success(request, f"{name_product} был удален")
-        else:
-            messages.success(request, "Товар либо уже был удален из корзины, либо не был добавлен")
+    cart_id = request.POST.get("cart_id")
+    cart = Cart.objects.get(id=cart_id)
+    quantity = cart.quantity
+    cart.delete()
 
-    return redirect(request.META['HTTP_REFERER'])
+    user_cart = get_user_carts(request)
+    cart_items_html = render_to_string("carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+
+    response_data = {"message": "Товар удален", "cart_items_html": cart_items_html, "quantity_deleted": quantity}
+
+    return JsonResponse(response_data)
