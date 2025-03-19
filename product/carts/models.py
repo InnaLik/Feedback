@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from goods.models import Products
 
 from product import settings
@@ -16,6 +17,22 @@ class CartQueryset(models.QuerySet):
         if self:
             return sum(cart.quantity for cart in self)
         return 0
+
+    def merge_duplicates(self):
+        """Объединяет дублирующиеся товары в корзине, суммируя их количество."""
+        carts = self.values("product").annotate(total_quantity=Sum("quantity"))
+
+        for cart in carts:
+            product_id = cart["product"]
+            total_quantity = cart["total_quantity"]
+
+            # Оставляем одну запись и обновляем её количество
+            main_cart = self.filter(product_id=product_id).first()
+            main_cart.quantity = total_quantity
+            main_cart.save()
+
+            # Удаляем все дубликаты, кроме оставленной записи
+            self.filter(product_id=product_id).exclude(id=main_cart.id).delete()
 
 
 class Cart(models.Model):

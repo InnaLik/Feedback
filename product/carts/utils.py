@@ -4,5 +4,7 @@ from carts.models import Cart
 def get_user_carts(request):
     """Получение корзин пользователя."""
     if request.user.is_authenticated:
-        carts = Cart.objects.filter(user=request.user).order_by("id")
-        return carts
+        return Cart.objects.filter(user=request.user).order_by("id")
+    if not request.session.session_key:
+        request.session.create()
+    return Cart.objects.filter(session_key=request.session.session_key).order_by("id")
