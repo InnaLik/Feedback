@@ -15,5 +15,17 @@ class CartTabAdmin(admin.TabularInline):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['user', 'product', 'quantity', 'created_timestamp']
+    list_display = ['user_display', 'product', 'quantity', 'created_timestamp']
     list_filter = ['created_timestamp', 'user', 'product__name']
+
+    @staticmethod
+    def user_display(obj):
+        """
+        Для отображения имени пользователя в админ панели.
+
+        Returns:
+            str метод объекта obj.user или строка "Анонимный пользователь".
+        """
+        if obj.user:
+            return str(obj.user)
+        return "Анонимный пользователь"
