@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Categories(models.Model):
@@ -49,6 +50,11 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        """Для получения url адреса."""
+        # get_product - это название нашего маршрута в urls
+        return reverse("catalog:get_product", kwargs={"product_slug": self.slug})
 
     def display_id(self):
         return f"{self.id:05}"
