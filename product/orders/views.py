@@ -1,9 +1,8 @@
-from django.core.exceptions import ValidationError
-
 from carts.models import Cart
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from orders.forms import CreateOrderForm
 from orders.models import Order, OrderItem
 
