@@ -32,7 +32,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='goods_images', blank=True, null=True, verbose_name='Изображение')
     price = models.DecimalField(default=0.00, max_digits=10, decimal_places=0, verbose_name='Цена')
     rating = models.IntegerField(choices=RATING_CHOICES, default=1, verbose_name="Рейтинг")
-    # quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=10)
     category = models.ForeignKey(
         to=Categories,
         on_delete=models.SET_DEFAULT,

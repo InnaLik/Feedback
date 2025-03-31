@@ -13,6 +13,8 @@ def create_order(request):
         form = CreateOrderForm(data=request.POST)
         if form.is_valid():
             try:
+                # атомарная транзакция, все ниже происходит в рамках одной транзакции,
+                # коммит создается только, если нет ошибок
                 with transaction.atomic():
                     # пользователь
                     user = request.user
@@ -31,8 +33,8 @@ def create_order(request):
                         # Создать заказанные товары
                         for cart_item in cart_items:
                             product = cart_item.product
-                            name = cart_item.name
-                            price = cart_item.price
+                            name = cart_item.product.name
+                            price = cart_item.product.price
                             quantity = cart_item.quantity
 
                             if product.quantity < quantity:
@@ -60,9 +62,10 @@ def create_order(request):
                 return redirect('cart:order')
 
     else:
-
+        # изначальные данные
         initial = {'first_name': request.user.first_name, 'last_name': request.user.last_name}
-        # создаем пустую форму, если пользователь только зашел в оформление заказа
+        # создаем пустую форму, если пользователь только зашел в оформление заказа, и заполняем предзаполненные данные,
+        # так как пользователь у нас уже авторизован
         form = CreateOrderForm(initial=initial)
 
     context = {"title": 'Оформление заказа', "form": form}
