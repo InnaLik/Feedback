@@ -24,4 +24,4 @@ class ProductsAdmin(admin.ModelAdmin):
     # поля, по которым можно фильтровать
     list_filter = ['rating', 'category']
     # какие элементы нужны для отображения в карточке
-    fields = ['name', 'slug', 'description', 'image', 'price', 'rating', 'category' 'quantity']
+    fields = ['name', 'slug', 'description', 'image', 'price', 'rating', 'category', 'quantity']
