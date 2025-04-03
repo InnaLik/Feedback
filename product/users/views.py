@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from orders.models import Order
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 from users.utils import update_carts
 
@@ -88,7 +89,8 @@ def profile(request):
     else:
         # передаем объект самого пользователя
         form = ProfileForm(instance=request.user)
-    context = {'title': 'Кабинет', 'form': form}
+    orders = Order.objects.filter(user=request.user)
+    context = {'title': 'Кабинет', 'form': form, "orders": orders}
 
     return render(request, 'users/profile.html', context)
 

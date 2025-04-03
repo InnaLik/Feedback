@@ -1,5 +1,6 @@
 from carts.models import Cart
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.shortcuts import redirect, render
@@ -7,6 +8,7 @@ from orders.forms import CreateOrderForm
 from orders.models import Order, OrderItem
 
 
+@login_required
 def create_order(request):
     """Создание заказа."""
     if request.method == 'POST':
@@ -68,6 +70,6 @@ def create_order(request):
         # так как пользователь у нас уже авторизован
         form = CreateOrderForm(initial=initial)
 
-    context = {"title": 'Оформление заказа', "form": form}
+    context = {"title": 'Оформление заказа', "form": form, "order": True}
 
     return render(request, 'orders/create_order.html', context)

@@ -84,11 +84,6 @@
             {% include "carts/includes/included_cart.html"%}
             <!-- Закончилась разметка корзины -->
                     </div>
-                    {% if carts %}
-                <a class="btn btn-dark" href="../orders/create_order.html">
-                    Оформить заказ
-                </a>
-                {% endif %}
                 </div>
             </div>
             <!-- Оформленные заказы -->
@@ -96,14 +91,14 @@
                 <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                     <h3 class="text-center mb-4">Мои заказы</h3>
                     <!-- Разметка заказов -->
+                    {% for order in orders %}
                     <div class="container">
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading1">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                                        Заказ № 256 - 09 сентября 2023 9:04 | Статус:<strong class="mx-2"> В
-                                        обработке</strong>
+                                        Заказ № {{order.id}} - {{order.created_timestamp}} | Статус:<strong class="mx-2"> {{order.status}}</strong>
                                     </button>
                                 </h2>
                                 <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
@@ -170,6 +165,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <!-- Закончилась разметка заказов -->
                 </div>
             </div>
