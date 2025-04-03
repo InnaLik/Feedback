@@ -1,5 +1,6 @@
 from carts.admin import CartTabAdmin
 from django.contrib import admin
+from orders.admin import OrderTabulareAdmin
 from users.models import User
 
 
@@ -11,4 +12,5 @@ class UserAdmin(admin.ModelAdmin):
     # для отображения корзин пользователя
     inlines = [
         CartTabAdmin,
+        OrderTabulareAdmin,
     ]
