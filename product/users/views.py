@@ -1,10 +1,11 @@
 from carts.models import Cart
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from orders.models import Order
+from orders.models import Order, OrderItem
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 from users.utils import update_carts
 
@@ -89,7 +90,11 @@ def profile(request):
     else:
         # передаем объект самого пользователя
         form = ProfileForm(instance=request.user)
-    orders = Order.objects.filter(user=request.user)
+    orders = (
+        Order.objects.filter(user=request.user)
+        .prefetch_related(Prefetch("orderitem_set", queryset=OrderItem.object.select_related("product")))
+        .order_by("-id")
+    )
     context = {'title': 'Кабинет', 'form': form, "orders": orders}
 
     return render(request, 'users/profile.html', context)
