@@ -49,6 +49,7 @@ class Cart(models.Model):
         db_table = 'cart'
         verbose_name = "Корзина"
         verbose_name_plural = "Корзина"
+        ordering = ("id",)
 
     # расширяем, чтобы помимо стандартных методов (filter, ...) были доступны методы из CartQueryset
     objects = CartQueryset().as_manager()
