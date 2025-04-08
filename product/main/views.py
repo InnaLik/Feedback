@@ -18,11 +18,5 @@ class AboutView(TemplateView):
     """Класс представления страницы О нас."""
 
     template_name = 'main/about.html'
-
-    def get_context_data(self, **kwargs):
-        """Для добавления контекста."""
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Home - обо мне"
-        context['content'] = "Обо мне"
-        context['text_on_page'] = "Программист мечтатель"
-        return context
+    # если нам не нужны параметры get запроса
+    extra_context = {"title": "Home - обо мне", "content": "Обо мне", "text_on_page": "Программист мечтатель"}
