@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import get_list_or_404, render
+from django.views.generic import DetailView
 from goods.models import Products
 from goods.utils import q_search
 
@@ -34,8 +35,21 @@ def catalog(request, category_slug=None):
     return render(request, 'goods/catalog.html', context=context)
 
 
-def get_product(request, product_slug):
-    product = Products.objects.get(slug=product_slug)
-    context = {"product": product}
+class ProductView(DetailView):
+    """Класс для представления информации об одной единицы товара."""
 
-    return render(request, 'goods/product.html', context=context)
+    template_name = 'goods/product.html'
+    slug_url_kwarg = "product_slug"
+    # это то имя, под которым мы потом будем обращаться в нашем шаблоне к параметрам
+    context_object_name = "product"
+
+    # переопределение
+    def get_object(self, queryset=None):
+        """Получение объекта для отображения."""
+        product = Products.objects.get(slug=self.kwargs.get(self.slug_url_kwarg))
+        return product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.object.name
+        return context
