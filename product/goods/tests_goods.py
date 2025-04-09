@@ -1,10 +1,15 @@
+import tempfile
+
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from goods.models import Products
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp()
 
+
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 @pytest.mark.django_db
 class ProductViewTest(TestCase):
     @classmethod
