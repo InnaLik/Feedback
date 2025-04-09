@@ -7,14 +7,6 @@ from goods.models import Products
 
 @pytest.mark.django_db
 class ProductViewTest(TestCase):
-    # def setUp(self):
-    #     """Создаем тестовый товар для проверки представления"""
-    #     self.product = Products.objects.create(
-    #         name='Test Product',
-    #         slug='test-product',
-    #         description='Test product description',
-    #         price=100
-    #     )
     @classmethod
     def setUpTestData(cls):
         image = SimpleUploadedFile(name='test_image.jpg', content=b'', content_type='image/jpeg')  # Пустой файл
