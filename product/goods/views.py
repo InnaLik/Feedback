@@ -1,38 +1,46 @@
-from django.core.paginator import Paginator
-from django.shortcuts import get_list_or_404, render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from goods.models import Products
 from goods.utils import q_search
 
 
-def catalog(request, category_slug=None):
-    # получаем параметр страницы через GET запрос
-    page = request.GET.get("page", 1)
-    query = request.GET.get("q", None)
-    on_rating = request.GET.get("on_rating", None)
-    order_by = request.GET.get("order_by", None)
-    if category_slug == "vse-tovary":
-        goods = Products.objects.all()
-    elif query:
-        goods = q_search(query)
-    else:
-        # get_list_or_404 нужно для того, чтобы при возвращении пустого queryset выводилась 404 ошибка
-        goods = get_list_or_404(Products.objects.filter(category__slug=category_slug))
+class CatalogView(ListView):
+    # Авто-подгрузка данных из модели
+    model = Products
+    # queryset = Products.objects.all().order_by("-rating")
+    template_name = 'goods/catalog.html'
+    # количество товаров, которое будет отображаться на странице
+    paginate_by = 6
+    # Удобное имя списка объектов в шаблоне
+    context_object_name = "goods"
+    # если не будет товаров, то автоматически будет ошибка 404
+    allow_empty = False
 
-    if on_rating:
-        goods = goods.order_by("-rating")
+    def get_queryset(self):
+        category_slug = self.kwargs.get("category_slug")
+        query = self.request.GET.get("q")
+        on_rating = self.request.GET.get("on_rating")
+        order_by = self.request.GET.get("order_by")
 
-    if order_by and order_by != 'default':
-        goods = goods.order_by(order_by)
+        if category_slug == "vse-tovary":
+            goods = super().get_queryset()
+        elif query:
+            goods = q_search(query)
+        else:
+            goods = super().get_queryset().filter(category__slug=category_slug)
 
-    # по три товара на каждую страницу
-    paginator = Paginator(goods, per_page=6)
-    # текущая страница, это и будет на queryset урезанный до 6
-    current_page = paginator.page(int(page))
+        if on_rating:
+            goods = goods.order_by("-rating")
 
-    context = {"title": "Мой каталог", 'goods': current_page, "slug_url": category_slug}
+        if order_by and order_by != 'default':
+            goods = goods.order_by(order_by)
 
-    return render(request, 'goods/catalog.html', context=context)
+        return goods
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Мой каталог"
+        context["slug_url"] = self.kwargs.get("category_slug")
+        return context
 
 
 class ProductView(DetailView):
