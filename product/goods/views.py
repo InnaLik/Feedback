@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.views.generic import DetailView, ListView
 from goods.models import Products
 from goods.utils import q_search
@@ -54,8 +55,10 @@ class ProductView(DetailView):
     # переопределение
     def get_object(self, queryset=None):
         """Получение объекта для отображения."""
-        product = Products.objects.get(slug=self.kwargs.get(self.slug_url_kwarg))
-        return product
+        try:
+            return Products.objects.get(slug=self.kwargs.get(self.slug_url_kwarg))
+        except Products.DoesNotExist:
+            raise Http404("Товар не найден")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
