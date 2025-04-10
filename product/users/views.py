@@ -1,49 +1,57 @@
 from carts.models import Cart
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from orders.models import Order, OrderItem
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 from users.utils import update_carts
 
 
-# Create your views here.
-def login(request):
-    """Вход в уз."""
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            # проверка, есть ли такой пользователь
-            user = auth.authenticate(username=username, password=password)
+class UserLoginView(LoginView):
+    """Класс представления для авторизации пользователей."""
 
-            session_key = request.session.session_key
+    template_name = 'users/login.html'
+    # наша форма
+    form_class = UserLoginForm
+    # куда перенаправлять, если вход успешен
+    # success_url = reverse_lazy('main:index')
 
-            if user:
-                # логиним пользователя
-                auth.login(request, user)
-                messages.success(request, message=f"{username}, Вы успешно зарегистрировались")
-                # если пользователь добавлял в корзину товары будучи неавторизованным, то после авторизации
-                # сохраняем корзину и обновляем её в бд по user
-                if session_key:
-                    Cart.objects.filter(session_key=session_key).update(user=user)
-                    update_carts(user)
+    def get_success_url(self):
+        """
+        Если в POST запросе есть next, то перенаправляем пользователя туда, откуда он пришел после регистрации,
+        при условии, что это не logout, иначе перенаправляем пользователя на главную страницу.
+        """
+        redirect_page = self.request.POST.get('next', None)
+        if redirect_page and redirect_page != reverse('user:logout'):
+            return redirect_page
+        return reverse_lazy('main:index')
 
-                redirect_page = request.POST.get('next', None)
-                if redirect_page and redirect_page != reverse('user:logout'):
-                    return HttpResponseRedirect(request.POST.get('next'))
-                return HttpResponseRedirect(reverse('main:index'))
-    else:
-        form = UserLoginForm()
-    # если у нас пришел post запрос, но не валидный, в контекст передастся форма не пустая, так как выше мы её сделали
-    # на сайте останется логин, пароль сбросится
-    context = {'title': 'Авторизация', 'form': form}
+    def get_context_data(self, **kwargs):
+        """Для добавления контекста."""
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Авторизация"
+        return context
 
-    return render(request, 'users/login.html', context)
+    def form_valid(self, form):
+        """Чтобы после авторизации корзина пользователя не пропала."""
+        session_key = self.request.session.session_key
+
+        user = form.get_user()
+
+        if user:
+            auth.login(self.request, user)
+            if session_key:
+                forgot_carts = Cart.objects.filter(user=user)
+                if forgot_carts.exists():
+                    forgot_carts.delete()
+                Cart.objects.filter(session_key=session_key).update(user=user)
+
+                messages.success(self.request, message=f"{user.username}, Вы успешно зарегистрировались")
+            return HttpResponseRedirect(self.get_success_url())
 
 
 # тут посмотреть, потому что если один и тот же товар добавили под незарег пользователем и зарег,

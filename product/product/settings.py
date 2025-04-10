@@ -13,7 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import AUTH_USER_MODEL, STATICFILES_DIRS
+from django.conf.global_settings import (
+    AUTH_USER_MODEL,
+    LOGIN_REDIRECT_URL,
+    LOGOUT_REDIRECT_URL,
+    STATICFILES_DIRS,
+)
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -157,6 +162,8 @@ INTERNAL_IPS = [
 ]
 
 LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 SYSTEM_ENV = os.getenv('SYSTEM_ENV')
 if SYSTEM_ENV == 'GITHUB_WORKFLOW':
