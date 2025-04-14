@@ -1,14 +1,13 @@
 from carts.models import Cart
 from django.contrib import auth, messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, TemplateView, UpdateView
 from orders.models import Order, OrderItem
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
-from users.utils import update_carts
 
 
 class UserLoginView(LoginView):
@@ -54,68 +53,77 @@ class UserLoginView(LoginView):
             return HttpResponseRedirect(self.get_success_url())
 
 
-# тут посмотреть, потому что если один и тот же товар добавили под незарег пользователем и зарег,
-# то у него будут разные id
-def registration(request):
-    """Регистрация пользователя."""
-    if request.method == 'POST':
-        form = UserRegistrationForm(data=request.POST)
-        if form.is_valid():
-            # заносим данные в бд
+class UserRegistrationView(CreateView):
+    template_name = 'users/registration.html'
+    # наша форма
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('user:profile')
+
+    # запускается в том случае, если пользователь прошел валидацию
+    def form_valid(self, form):
+        session_key = self.request.session.session_key
+        user = form.instance
+
+        if user:
             form.save()
+            auth.login(self.request, user)
 
-            session_key = request.session.session_key
+        if session_key:
+            Cart.objects.filter(session_key=session_key).update(user=user)
 
-            # сразу войдем под пользователем
-            user = form.instance
-            auth.login(request, user)
-            messages.success(request, message=f"{user.username}, Вы успешно зарегистрировались")
+        messages.success(self.request, message=f"{user.username}, Вы успешно зарегистрировались")
+        return HttpResponseRedirect(self.success_url)
 
-            if session_key:
-                Cart.objects.filter(session_key=session_key).update(user=user)
-                update_carts(user)
-
-            return HttpResponseRedirect(reverse('main:index'))
-    else:
-        form = UserRegistrationForm()
-
-    context = {'title': 'Регистрация', 'form': form}
-
-    return render(request, 'users/registration.html', context)
+    def get_context_data(self, **kwargs):
+        """Для добавления контекста."""
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Регистрация"
+        return context
 
 
-@login_required
-def profile(request):
+# миксин вместо декоратора
+class ProfileView(LoginRequiredMixin, UpdateView):
     """Профиль пользователя."""
-    if request.method == 'POST':
-        # files чтобы могла принимать файлы
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
-        if form.is_valid():
-            # заносим данные в бд
-            form.save()
-            messages.success(request, message="Данные изменены")
-            return HttpResponseRedirect(reverse('user:profile'))
-    else:
-        # передаем объект самого пользователя
-        form = ProfileForm(instance=request.user)
-    orders = (
-        Order.objects.filter(user=request.user)
-        .prefetch_related(Prefetch("orderitem_set", queryset=OrderItem.object.select_related("product")))
-        .order_by("-id")
-    )
-    context = {'title': 'Кабинет', 'form': form, "orders": orders}
 
-    return render(request, 'users/profile.html', context)
+    form_class = ProfileForm
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('user:profile')
+
+    def get_context_data(self, **kwargs):
+        """Для добавления контекста."""
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Кабинет"
+        context['orders'] = (
+            Order.objects.filter(user=self.request.user)
+            .prefetch_related(Prefetch("orderitem_set", queryset=OrderItem.object.select_related("product")))
+            .order_by("-id")
+        )
+        return context
+
+    def get_object(self, queryset=None):
+        """Для возврата пользователя сразу из запроса, а не из бд."""
+        return self.request.user
+
+    def form_valid(self, form):
+        """Для отправки пользователю сообщения об успешном изменении данных."""
+        messages.success(self.request, message="Данные изменены")
+        return super().form_valid(form)
+
+# @login_required
+# def logout(request):
+#     """Выход из уз."""
+#     messages.success(request, message=f"{request.user.username}, Вы вышли из аккаунта")
+#     auth.logout(request)
+#     return redirect(reverse('main:index'))
 
 
-@login_required
-def logout(request):
-    """Выход из уз."""
-    messages.success(request, message=f"{request.user.username}, Вы вышли из аккаунта")
-    auth.logout(request)
-    return redirect(reverse('main:index'))
-
-
-def users_cart(request):
+class UserCartView(TemplateView):
     """Для отображения корзины пользователя."""
-    return render(request, 'users/users_cart.html')
+
+    template_name = 'users/users_cart.html'
+
+    def get_context_data(self, **kwargs):
+        """Для добавления контекста."""
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Корзина"
+        return context
