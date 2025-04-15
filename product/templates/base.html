@@ -68,12 +68,13 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                     <form method="post" action="{% url 'user:logout' %}" style="margin: 0;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-white" style="background: none; border: none; padding: 0; margin: 0; width: 100%; text-align: left;">
-                                        Выйти
-                                     </button>
-                                    </form></li>
+                                      <a href="#" class="dropdown-item text-white"
+     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    Выйти
+  </a>
+  <form id="logout-form" method="post" action="{% url 'user:logout' %}" style="display: none;">
+    {% csrf_token %}
+  </form></li>
                             </ul>
                         </li>
                         {% endif %}

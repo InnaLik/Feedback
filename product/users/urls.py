@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from users import views
 
@@ -9,5 +10,5 @@ urlpatterns = [
     path('registration/', views.UserRegistrationView.as_view(), name='registration'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('users-cart/', views.UserCartView.as_view(), name='users_cart'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
