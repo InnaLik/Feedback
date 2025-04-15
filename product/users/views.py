@@ -109,6 +109,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, message="Данные изменены")
         return super().form_valid(form)
 
+
 # @login_required
 # def logout(request):
 #     """Выход из уз."""
