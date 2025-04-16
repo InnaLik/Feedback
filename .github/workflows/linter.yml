@@ -79,6 +79,5 @@ jobs:
       - name: Change directory
         run: |
           cd product
-          python manage.py makemigrations users
           python manage.py migrate
           pytest .
