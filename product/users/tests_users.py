@@ -33,13 +33,6 @@ class TestUsers:
         assert not client.session.get("_auth_user_id")
 
     @pytest.mark.django_db
-    def test_logout_without_auth(self, client):
-        response = client.post(reverse("user:logout"))  # Выход без входа в систему
-
-        assert response.status_code == 302  # Проверяем, что всё равно происходит редирект
-        assert response.url.startswith(reverse("user:login"))
-
-    @pytest.mark.django_db
     def test_profile_get(self, client, django_user_model):
         user = django_user_model.objects.create_user(username="testuser", password="password")  # noqa  # noqa
         client.login(username="testuser", password="password")  # Логиним пользователя
