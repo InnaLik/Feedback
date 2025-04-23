@@ -2,6 +2,7 @@
 {% load static %}
 {% load carts_tags %}
 {% block content %}
+{% load cache %}
 
 
 <div class="row">
@@ -87,6 +88,8 @@
                 </div>
             </div>
             <!-- Оформленные заказы -->
+            <!-- делаем кеш - название блока и по user.id чтобы другому пользователю не отображались данные -->
+            {% cache 60 user_orders user.id%}
             <div class="col-md-12">
                 <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                     <h3 class="text-center mb-4">Мои заказы</h3>
@@ -131,6 +134,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% endcache %}
                     <!-- Закончилась разметка заказов -->
                 </div>
             </div>
