@@ -22,8 +22,13 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 AUTH_USER_MODEL = 'users.User'
+
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'main',
+    'goods',
+    'carts',
+    'orders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,10 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'debug_toolbar',
-    'main',
-    'goods',
-    'carts',
-    'orders',
 ]
 
 
