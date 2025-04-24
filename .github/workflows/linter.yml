@@ -79,7 +79,7 @@ jobs:
       - name: Change directory
         run: |
           cd product
-          python maange.py makemigrations user
+          python manage.py makemigrations user
           python manage.py migrate
           python manage.py makemigrations --no-input
           python manage.py showmigrations
