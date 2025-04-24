@@ -1,7 +1,7 @@
 from django.db import models
 from goods.models import Products
+
 from product import settings
-from users.models import User
 
 
 class OrderitemQueryset(models.QuerySet):
@@ -18,7 +18,12 @@ class OrderitemQueryset(models.QuerySet):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, blank=True, null=True, verbose_name="Пользователь", default=None
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.SET_DEFAULT,
+        blank=True,
+        null=True,
+        verbose_name="Пользователь",
+        default=None,
     )
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания заказа")
     phone_number = models.CharField(max_length=20, verbose_name="Номер телефона")
