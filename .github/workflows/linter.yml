@@ -80,5 +80,5 @@ jobs:
         run: |
           cd product
            python manage.py makemigrations
-          python manage.py migrate--verbosity 3
+          python manage.py migrate --verbosity 3
           pytest .
