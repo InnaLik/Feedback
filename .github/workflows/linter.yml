@@ -79,6 +79,6 @@ jobs:
       - name: Change directory
         run: |
           cd product
-          python manage.py makemigrations
-          python manage.py migrate --noinput
+          python manage.py makemigrations --no-input
+          python manage.py migrate --no-input --fake-initial
           pytest .
