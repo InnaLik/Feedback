@@ -7,7 +7,6 @@ from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, TemplateView, UpdateView
-from orders.models import Order, OrderItem
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 
 
@@ -92,6 +91,8 @@ class ProfileView(LoginRequiredMixin, CacheMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         """Для добавления контекста."""
+        from orders.models import Order, OrderItem
+
         context = super().get_context_data(**kwargs)
         context['title'] = "Кабинет"
         query = (

@@ -79,6 +79,6 @@ jobs:
       - name: Change directory
         run: |
           cd product
-           python manage.py makemigrations
+          python manage.py makemigrations
           python manage.py migrate --verbosity 3
           pytest .
