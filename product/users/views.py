@@ -1,8 +1,8 @@
 from carts.models import Cart
+from common.mixins import CacheMixin
 from django.contrib import auth, messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.cache import cache
 from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -83,7 +83,7 @@ class UserRegistrationView(CreateView):
 
 
 # миксин вместо декоратора
-class ProfileView(LoginRequiredMixin, UpdateView):
+class ProfileView(LoginRequiredMixin, CacheMixin, UpdateView):
     """Профиль пользователя."""
 
     form_class = ProfileForm
@@ -94,16 +94,13 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         """Для добавления контекста."""
         context = super().get_context_data(**kwargs)
         context['title'] = "Кабинет"
+        query = (
+            Order.objects.filter(user=self.request.user)
+            .prefetch_related(Prefetch("orderitem_set", queryset=OrderItem.object.select_related("product")))
+            .order_by("-id")
+        )
         # получаем значения из кэша
-        orders = cache.get(f"orders_for_user_{self.request.user.id}")
-        # если значений нет
-        if not orders:
-            orders = (
-                Order.objects.filter(user=self.request.user)
-                .prefetch_related(Prefetch("orderitem_set", queryset=OrderItem.object.select_related("product")))
-                .order_by("-id")
-            )
-            cache.set(f"orders_for_user_{self.request.user.id}", orders, 30)
+        orders = self.set_get_cache(query, f"orders_for_user_{self.request.user.id}", 60)
         context['orders'] = orders
         return context
 
