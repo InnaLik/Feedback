@@ -1,3 +1,5 @@
+from django.http import HttpResponseNotFound
+from django.views import View
 from django.views.generic import TemplateView
 
 
@@ -21,3 +23,12 @@ class AboutView(TemplateView):
     template_name = 'main/about.html'
     # если нам не нужны параметры get запроса/ переопределение
     extra_context = {"title": "Home - обо мне", "content": "Обо мне", "text_on_page": "Программист мечтатель"}
+
+
+class PageNotFoundView(View):
+    """Класс для обработки 404 ответа."""
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotFound(
+            "<h1>Страница не найдена или удалена, или её не добавили. Обратитесь к разработчику</h1>"
+        )
