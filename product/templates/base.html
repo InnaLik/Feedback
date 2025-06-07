@@ -35,50 +35,50 @@
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Информация
+                                Контактная информация
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item  text-white" href="#">Доставка и оплата</a></li>
+<!--                                <li><a class="dropdown-item  text-white" href="#">Доставка и оплата</a></li>-->
                                 <li><a class="dropdown-item  text-white" href="#">Контактная информация</a></li>
-                                <li><a class="dropdown-item  text-white" href="{% url "main:about" %}">Про нас</a></li>
+<!--                                <li><a class="dropdown-item  text-white" href="{% url "main:about" %}">Про нас</a></li>-->
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link  text-white" href="{% url "user:users_cart" %}">Корзина</a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link  text-white" href="{% url "user:users_cart" %}">Корзина</a>-->
+<!--                        </li>-->
                         <!-- если пользователь не вошел в профиль, выводим кнопку войти -->
-                        {% if not user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link  text-white" href="{% url 'user:login'%}">Войти</a>
-                        </li>
-                        <!-- если пользователь вошел в профиль - выводим Мой профиль на навигационной панели -->
-                        {% else %}
-                        <li class="nav-item dropdown ">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Мой профиль
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item  text-white" href="carts/cart.html">Корзина</a></li>
-                                <li><a class="dropdown-item  text-white" href="{% url 'user:profile'%}">Личный кабинет</a>
-                                </li>
-                                {% if user.is_admin or user.is_staff %}
-                                    <li><a class="dropdown-item  text-white" href="{% url 'admin:index'%}">Админ панель</a></li>
-                                {% endif %}
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                      <a href="#" class="dropdown-item text-white"
-     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-    Выйти
-  </a>
-  <form id="logout-form" method="post" action="{% url 'user:logout' %}" style="display: none;">
-    {% csrf_token %}
-  </form></li>
-                            </ul>
-                        </li>
-                        {% endif %}
+<!--                        {% if not user.is_authenticated %}-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link  text-white" href="{% url 'user:login'%}">Войти</a>-->
+<!--                        </li>-->
+<!--                        &lt;!&ndash; если пользователь вошел в профиль - выводим Мой профиль на навигационной панели &ndash;&gt;-->
+<!--                        {% else %}-->
+<!--                        <li class="nav-item dropdown ">-->
+<!--                            <a class="nav-link dropdown-toggle text-white" href="#" role="button"-->
+<!--                                data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                                Мой профиль-->
+<!--                            </a>-->
+<!--                            <ul class="dropdown-menu">-->
+<!--                                <li><a class="dropdown-item  text-white" href="carts/cart.html">Корзина</a></li>-->
+<!--                                <li><a class="dropdown-item  text-white" href="{% url 'user:profile'%}">Личный кабинет</a>-->
+<!--                                </li>-->
+<!--                                {% if user.is_admin or user.is_staff %}-->
+<!--                                    <li><a class="dropdown-item  text-white" href="{% url 'admin:index'%}">Админ панель</a></li>-->
+<!--                                {% endif %}-->
+<!--                                <li>-->
+<!--                                    <hr class="dropdown-divider">-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                      <a href="#" class="dropdown-item text-white"-->
+<!--     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">-->
+<!--    Выйти-->
+<!--  </a>-->
+<!--  <form id="logout-form" method="post" action="{% url 'user:logout' %}" style="display: none;">-->
+<!--    {% csrf_token %}-->
+<!--  </form></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        {% endif %}-->
                     </ul>
                     <form class="d-flex" role="search" action="{% url "catalog:search" %}" method="get">
                         <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
@@ -109,9 +109,9 @@
                         {% endcache %}
                     </ul>
                 </div>
-                <!-- Значек корзины, вызывает модальное окно -->
-                {% block model_cart%}{% endblock%}
-                <!-- Закончилась разметка модального окна -->
+<!--                Значек корзины, вызывает модальное окно-->
+<!--                {% block model_cart%}{% endblock%} -->
+<!--                Закончилась разметка модального окна -->
             </div>
         </div>
         <!-- Контент -->

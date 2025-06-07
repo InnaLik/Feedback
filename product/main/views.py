@@ -13,7 +13,7 @@ class IndexView(TemplateView):
         """Для добавления контекста."""
         context = super().get_context_data(**kwargs)
         context['title'] = "Home - Главная"
-        context['content'] = "Отзывы о продуктах"
+        context['content'] = "Отзывы о косметике"
         return context
 
 
